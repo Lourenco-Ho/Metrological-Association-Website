@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>伍達倫獎學金過去問</title>
+    <link rel="icon" href="images/Logo.png" type="image/png">
+    <style>
+        :root {
+            --primary-green: #16863C;
+            --secondary-gray: #f4f4f4;
+            --text-blue: #0056b3;
+            --dark-gray: #333;
+        }
+
+        /* 讓跳轉更順滑 */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        #backToTop {
+            display: none; /* 預設隱藏，捲動後才顯示 */
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            font-size: 24px;
+            border: none;
+            outline: none;
+            background-color: var(--primary-green); /* 使用你原本的綠色 */
+            color: white;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%; /* 圓形按鈕 */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        #backToTop:hover {
+            background-color: #16863C; /* 懸停時顏色加深 */
+            transform: scale(1.1); /* 輕微放大 */
+        }
+
+        /* 內容目錄 (TOC) 樣式 */
+        .toc-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 15px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .toc-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .toc-links a {
+            text-decoration: none;
+            color: #16863C; /* 綠色 */
+            font-weight: 600;
+            padding: 6px 15px;
+            border: 1.5px solid #16863C;
+            border-radius: 20px;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .toc-links a:hover {
+            background: #27ae60;
+            color: white;
+        }
+
+        body {
+            font-family: 'Segoe UI', Microsoft JhengHei, sans-serif;
+            background-color: #fafafa;
+            margin: 0;
+            color: var(--dark-gray);
+        }
+
+        /* 頁頂 Header: 毛玻璃效果更顯現代感 */
+        header {
+            display: flex;
+            align-items: center;
+            padding: 15px 5%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            margin-right: 12px;
+            object-fit: contain;
+        }
+
+        .company-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        /* H1: 寬版綠色背景 */
+        h1 {
+            background-color: #16863C;
+            color: white;
+            margin: 0;
+            padding: 60px 20px;
+            text-align: center;
+            font-size: 2.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .faq-wrapper {
+            max-width: 850px;
+            margin: -30px auto 50px; /* 向上偏移營造層次感 */
+            padding: 0 20px;
+        }
+
+
+        /* H2: 灰色背景類別標籤 */
+        h2 {
+            background-color: #D8D8D8;
+            color: black;
+            padding: 12px 20px;
+            border-radius: 30px; /* 圓角膠囊造型 */
+            font-size: 1.1rem;
+            display: inline-block;
+            margin: 40px 0 20px;
+            scroll-margin-top: 120px;
+        }
+        .top_no_margin{
+            margin: 0px 0 20px;
+        }
+
+        /* FAQ 卡片設計 */
+        .faq-item {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid #eee;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+        }
+
+        /* 問題區域 - 可點擊，使用 flex 將內容推到兩端，讓 + 圖標固定在最右側 */
+        .faq-question {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.05rem;
+            user-select: none;
+            background: white;
+            box-sizing: border-box;
+        }
+
+        /* 問題文字區域，允許換行 */
+        .question-text {
+            flex: 1;
+            padding-right: 20px;
+            line-height: 1.4;
+        }
+
+        /* 圖標容器，固定在最右側，不縮放 */
+        .icon-wrapper {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question .icon-wrapper::after {
+            content: '+';
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: var(--primary-green);
+            line-height: 1;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        /* 展開時圖標旋轉 45 度變成 X 效果 */
+        .faq-item.active .faq-question .icon-wrapper::after {
+            transform: rotate(45deg);
+        }
+
+        /* 答案區域 - 預設隱藏 */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: white;
+        }
+
+        .answer-content {
+            padding: 0 20px 20px;
+            color: #192CB6; /* 藍色字 */
+            line-height: 1.8;
+        }
+
+        /* 當 active 時展開 */
+        .faq-item.active .faq-answer {
+            max-height: 300px; /* 足夠容納答案內容 */
+        }
+
+        /* 響應式調整 */
+        @media (max-width: 600px) {
+            .faq-question {
+                padding: 16px;
+            }
+            .question-text {
+                font-size: 0.95rem;
+                padding-right: 12px;
+            }
+            .icon-wrapper::after {
+                font-size: 1.4rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+                padding: 40px 20px;
+            }
+            .toc-links {
+                gap: 10px;
+            }
+            .toc-links a {
+                padding: 4px 12px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button id="backToTop" title="返回頂部">↑</button>
+
+    <header>
+        <img src="images/Logo.png" alt="公司 Logo" class="logo" onerror="this.style.display='none'">
+        <div class="company-name">Associação da Mateológico do Não Dobrar<br>Academic Research Departemt</div>
+    </header>
+
+    <h1>伍達倫獎學金過去問題集</h1>
+    
+    <!-- 目錄區塊 -->
+    <div class="toc-container">
+        <h2 class="top_no_margin">目錄</h2>
+        <div class="toc-links">
+            <!-- JS 會在這裡生成連結 -->
+        </div>
+    </div>
+
+    <div class="faq-wrapper">
+        <!-- JS 會在這裡生成內容 -->
+        <div id="faq-app"></div>
+    </div>
+
+    <script src="data.js"></script>
+
+    <script>
+        // 確保頁面同 data.js 都載入完先執行
+        window.onload = function() {
+            if (typeof faqData !== 'undefined') {
+                renderFAQ(faqData);
+            } else {
+                console.error("找不到 faqData 變數，請檢查 data.js 是否正確載入。");
+            }
+        };
+
+        function renderFAQ(data) {
+            const app = document.getElementById('faq-app');
+            const tocLinks = document.querySelector('.toc-links');
+            
+            // 清空容器（防止重複渲染）
+            app.innerHTML = '';
+            tocLinks.innerHTML = '';
+
+            data.forEach(section => {
+                if (!section.categoryId) return; 
+
+                // 1. 生成目錄連結
+                const link = document.createElement('a');
+                link.href = `#${section.categoryId}`;
+                link.textContent = section.category;
+                tocLinks.appendChild(link);
+
+                // 2. 生成類別標題
+                const h2 = document.createElement('h2');
+                h2.id = section.categoryId;
+                h2.textContent = section.category;
+                app.appendChild(h2);
+
+                // 3. 生成 FAQ 項目
+                if (section.items && Array.isArray(section.items)) {
+                    section.items.forEach(item => {
+                        const faqItem = document.createElement('div');
+                        faqItem.className = 'faq-item';
+                        faqItem.innerHTML = `
+                            <div class="faq-question">
+                                <div class="question-text">${item.q}</div>
+                                <div class="icon-wrapper"></div>
+                            </div>
+                            <div class="faq-answer">
+                                <div class="answer-content">${item.a}</div>
+                            </div>
+                        `;
+                        // 點擊事件
+                        faqItem.addEventListener('click', () => {
+                            faqItem.classList.toggle('active');
+                        });
+                        app.appendChild(faqItem);
+                    });
+                }
+            });
+        }
+
+        // Back to Top 功能
+        const backToTopBtn = document.getElementById("backToTop");
+        window.onscroll = function() {
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                backToTopBtn.style.display = "block";
+            } else {
+                backToTopBtn.style.display = "none";
+            }
+        };
+        backToTopBtn.onclick = function() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+    </script>
+
+</body>
+</html>

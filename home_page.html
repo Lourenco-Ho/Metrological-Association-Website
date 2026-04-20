@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Associação da Mateológico do Não Dobrar - 官方首頁</title>
+    <link rel="icon" href="images/Logo.png" type="image/png">
+    <style>
+        :root {
+            --primary-green: #16863C;
+            --dark-gray: #333;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Segoe UI', Microsoft JhengHei, sans-serif;
+            background-color: #fafafa;
+            margin: 0;
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* 返回頂部 */
+        #backToTop {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1001;
+            font-size: 24px;
+            border: none;
+            background-color: var(--primary-green);
+            color: white;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: 0.3s;
+        }
+
+        #backToTop:hover { transform: scale(1.1); }
+
+        /* Header 毛玻璃 */
+        header {
+            display: flex;
+            align-items: center;
+            padding: 15px 5%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo { width: 40px; height: 40px; margin-right: 12px; }
+
+        .company-name { font-size: 1.1rem; font-weight: 700; }
+
+        /* 大首頁 Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #16863C 0%, #1a5d2e 100%);
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .hero h1 { font-size: 2.5rem; margin: 0 0 15px; }
+        .hero p { font-size: 1.2rem; opacity: 0.9; max-width: 800px; margin: 0 auto; }
+
+        /* 卡片佈局 */
+        .main-container {
+            max-width: 1100px;
+            margin: -50px auto 60px;
+            padding: 0 20px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .nav-card {
+            background: white;
+            border-radius: 12px;
+            padding: 40px 25px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--dark-gray);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+            transition: 0.3s ease;
+            border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary-green);
+        }
+
+        .card-icon { font-size: 3.5rem; margin-bottom: 15px; }
+        .nav-card h3 { color: var(--primary-green); margin: 10px 0; font-size: 1.3rem; }
+        .nav-card p { font-size: 0.95rem; color: #666; flex-grow: 1; margin-bottom: 25px; }
+
+        .btn {
+            padding: 10px 0;
+            width: 100%;
+            background: var(--primary-green);
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        /* 未開放卡片 - 白色背景、不透明 */
+        .nav-card.disabled {
+            cursor: not-allowed;
+            background: #ffffff;
+            opacity: 1; 
+            border-color: #f0f0f0;
+        }
+
+        .nav-card.disabled:hover { transform: none; box-shadow: 0 8px 25px rgba(0,0,0,0.05); }
+
+        .nav-card.disabled h3, .nav-card.disabled .card-icon { color: #ccc; }
+        .nav-card.disabled p { color: #ddd; }
+        .nav-card.disabled .btn { background: #f0f0f0; color: #aaa; }
+
+        footer { text-align: center; padding: 40px; color: #bbb; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+    <button id="backToTop">↑</button>
+
+    <header>
+        <img src="images/Logo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
+        <div class="company-name">Associação da Mateológico do Não Dobrar</div>
+    </header>
+
+    <section class="hero">
+        <h1>歡迎來到組織門戶</h1>
+        <p>請選擇所屬部門或資源中心以進入相應的服務平台</p>
+    </section>
+
+    <div class="main-container">
+        <div id="portal-app" class="card-grid"></div>
+    </div>
+
+    <footer>
+        &copy; 2026 Associação da Mateológico do Não Dobrar. All rights reserved.
+    </footer>
+
+    <script src="homeData.js"></script>
+    <script>
+        window.onload = function() {
+            if (typeof homeData !== 'undefined') {
+                const container = document.getElementById('portal-app');
+                homeData.forEach(item => {
+                    const card = document.createElement('a');
+                    card.href = item.active ? item.link : "javascript:void(0)";
+                    card.className = `nav-card ${item.active ? '' : 'disabled'}`;
+                    card.innerHTML = `
+                        <div class="card-icon">${item.icon}</div>
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                        <div class="btn">${item.active ? '進入部門' : '暫未開放'}</div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+            
+            const btn = document.getElementById("backToTop");
+            window.onscroll = () => {
+                btn.style.display = (window.scrollY > 200) ? "block" : "none";
+            };
+            btn.onclick = () => window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+    </script>
+</body>
+</html>

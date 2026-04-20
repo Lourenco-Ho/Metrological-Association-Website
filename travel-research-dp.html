@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅遊研究中心 - Travel Research Department</title>
+    <link rel="icon" href="images/Logo.png" type="image/png">
+    <style>
+        :root {
+            --primary-green: #16863C;
+            --dark-gray: #333;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Segoe UI', Microsoft JhengHei, sans-serif;
+            background-color: #fafafa;
+            margin: 0;
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* 返回按鈕樣式 */
+        .back-nav {
+            padding: 10px 5%;
+            background: #eee;
+            font-size: 0.9rem;
+        }
+        .back-nav a {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            padding: 15px 5%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo { width: 40px; height: 40px; margin-right: 12px; }
+        .company-name { font-size: 1.1rem; font-weight: 700; }
+
+        .hero {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .hero h1 { font-size: 2.2rem; margin: 0; }
+
+        .main-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        /* 卡片樣式 */
+        .nav-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--dark-gray);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: 0.3s;
+            border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-green);
+        }
+
+        .card-icon { font-size: 3rem; margin-bottom: 15px; }
+        .nav-card h3 { color: var(--primary-green); margin: 10px 0; }
+        .nav-card p { font-size: 0.95rem; color: #666; flex-grow: 1; margin-bottom: 20px; }
+
+        .btn {
+            padding: 10px;
+            background: var(--primary-green);
+            color: white;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        /* Disabled 樣式：白色背景，文字變淡 */
+        .nav-card.disabled {
+            cursor: not-allowed;
+            background: #fff;
+            border-color: #f0f0f0;
+        }
+        .nav-card.disabled h3, .nav-card.disabled .card-icon { color: #ccc; }
+        .nav-card.disabled p { color: #ddd; }
+        .nav-card.disabled .btn { background: #f0f0f0; color: #aaa; }
+
+        footer { text-align: center; padding: 40px; color: #bbb; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="images/Logo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
+        <div class="company-name">Associação da Mateológico do Não Dobrar</div>
+    </header>
+
+    <nav class="back-nav">
+        <a href="index.html">← 返回組織首頁</a>
+    </nav>
+
+    <section class="hero">
+        <h1>學術資源中心</h1>
+    </section>
+
+    <div class="main-container">
+        <div id="academic-app" class="card-grid"></div>
+    </div>
+
+    <footer>
+        &copy; 2026 Associação da Mateológico do Não Dobrar<br>Travel Research Departemt.
+    </footer>
+
+    <script src="travel-research-dp-data.js"></script>
+    <script>
+        window.onload = function() {
+            if (typeof academicData !== 'undefined') {
+                const container = document.getElementById('academic-app');
+                academicData.forEach(item => {
+                    const card = document.createElement('a');
+                    card.href = item.active ? item.link : "javascript:void(0)";
+                    card.className = `nav-card ${item.active ? '' : 'disabled'}`;
+                    card.innerHTML = `
+                        <div class="card-icon">${item.icon}</div>
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                        <div class="btn">${item.active ? '立即進入' : '即將開放'}</div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+        };
+    </script>
+</body>
+</html>
