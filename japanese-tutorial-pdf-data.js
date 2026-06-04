@@ -236,6 +236,12 @@ const resourceData = [
                     { desc: "課堂筆記", url: "https://drive.google.com/file/d/1vBEaeDn3lV8d5ozBSGvUhha-e5fKLB9c/view?usp=sharing" }
                 ]
             },
+            {
+                title: "Ch.35 時間（2）",
+                files: [
+                    { desc: "課堂筆記", url: "https://drive.google.com/file/d/1vBEaeDn3lV8d5ozBSGvUhha-e5fKLB9c/view?usp=sharing" }
+                ]
+            },
         ]
     },
     {
